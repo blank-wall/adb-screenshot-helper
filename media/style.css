@@ -1,0 +1,631 @@
+:root {
+  --accent: #36f06b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--vscode-font-family, sans-serif);
+  font-size: var(--vscode-font-size, 13px);
+  color: var(--vscode-foreground, #cccccc);
+  background: var(--vscode-editor-background, #1e1e1e);
+}
+
+.hidden {
+  display: none !important;
+}
+
+#app {
+  display: flex;
+  height: 100vh;
+}
+
+/* ---------------- 左侧栏 ---------------- */
+
+#sidebar {
+  width: 232px;
+  flex: 0 0 232px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  overflow-y: auto;
+  background: var(--vscode-sideBar-background, #252526);
+  border-right: 1px solid var(--vscode-panel-border, #3c3c3c);
+}
+
+.device-card {
+  border: 1px solid var(--vscode-panel-border, #3c3c3c);
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+.device-card-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.device-card-body {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #888;
+}
+
+.dot.on {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.group {
+  margin-top: 2px;
+}
+
+.group-title {
+  font-size: 11px;
+  opacity: 0.75;
+  margin-bottom: 5px;
+}
+
+.segmented {
+  display: flex;
+  gap: 4px;
+}
+
+.seg {
+  flex: 1;
+  padding: 6px 4px;
+  border-radius: 3px;
+  border: 1px solid var(--vscode-panel-border, #3c3c3c);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.seg.active {
+  background: var(--vscode-button-background, #0e639c);
+  color: var(--vscode-button-foreground, #ffffff);
+  border-color: transparent;
+}
+
+/* ---------------- 按钮 / 输入 ---------------- */
+
+.btn {
+  appearance: none;
+  width: 100%;
+  padding: 7px 10px;
+  color: var(--vscode-button-foreground, #ffffff);
+  background: var(--vscode-button-background, #0e639c);
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: center;
+}
+
+.btn:hover {
+  background: var(--vscode-button-hoverBackground, #1177bb);
+}
+
+.btn.primary {
+  background: #1b9e4b;
+}
+
+.btn.primary:hover {
+  background: #23b858;
+}
+
+.btn.danger {
+  background: #a1260d;
+}
+
+.btn.danger:hover {
+  background: #b8331a;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input[type='number'],
+.connect-row input {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--vscode-input-background, #3c3c3c);
+  color: var(--vscode-input-foreground, #cccccc);
+  border: 1px solid var(--vscode-input-border, #3c3c3c);
+  border-radius: 3px;
+}
+
+input:focus,
+select:focus {
+  outline: 1px solid var(--vscode-focusBorder, #007fd4);
+  outline-offset: -1px;
+}
+
+.fmt-select {
+  width: 100%;
+  padding: 6px 8px;
+  background: var(--vscode-input-background, #3c3c3c);
+  color: var(--vscode-input-foreground, #cccccc);
+  border: 1px solid var(--vscode-input-border, #3c3c3c);
+  border-radius: 3px;
+}
+
+#codeBox {
+  min-height: 96px;
+  resize: vertical;
+  width: 100%;
+  padding: 8px;
+  background: var(--vscode-input-background, #3c3c3c);
+  color: var(--vscode-input-foreground, #cccccc);
+  border: 1px solid var(--vscode-input-border, #3c3c3c);
+  border-radius: 3px;
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 12px;
+}
+
+/* ---------------- 中间舞台 ---------------- */
+
+#stage {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--vscode-editor-background, #1e1e1e);
+}
+
+#screen {
+  position: absolute;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+#screen.grab {
+  cursor: grab !important;
+}
+
+#screen.grabbing {
+  cursor: grabbing !important;
+}
+
+/* 缩放工具条 */
+#zoomBar {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--vscode-editorWidget-background, rgba(37, 37, 38, 0.92));
+  border: 1px solid var(--vscode-panel-border, #3c3c3c);
+  border-radius: 5px;
+  padding: 2px;
+  z-index: 12;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.zbtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: inherit;
+  min-width: 30px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.zbtn:hover {
+  background: var(--vscode-toolbar-hoverBackground, rgba(255, 255, 255, 0.12));
+}
+
+.zbtn.zlabel {
+  min-width: 54px;
+  font-family: var(--vscode-editor-font-family, monospace);
+}
+
+.zbtn.zfit {
+  min-width: 44px;
+}
+
+#emptyHint {
+  text-align: center;
+  color: var(--vscode-descriptionForeground, #9d9d9d);
+  padding: 20px;
+}
+
+.hint-main {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.hint-sub {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* ---------------- 放大镜 ---------------- */
+
+#loupe {
+  position: absolute;
+  pointer-events: none;
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  background: #111111;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+#loupeCanvas {
+  display: block;
+}
+
+#loupeInfo {
+  background: #111111;
+  color: #eeeeee;
+  font-size: 11px;
+  padding: 3px 6px;
+  font-family: var(--vscode-editor-font-family, monospace);
+  text-align: center;
+  border-top: 1px solid #333333;
+}
+
+/* ---------------- Toast ---------------- */
+
+#toast {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(40, 40, 40, 0.95);
+  color: #eeeeee;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  z-index: 20;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  max-width: 80%;
+  text-align: center;
+}
+
+#toast.ok {
+  background: rgba(27, 128, 75, 0.95);
+}
+
+#toast.error {
+  background: rgba(161, 38, 13, 0.95);
+}
+
+/* ---------------- 右侧标记表 ---------------- */
+
+#rightbar {
+  width: 300px;
+  flex: 0 0 300px;
+  border-left: 1px solid var(--vscode-panel-border, #3c3c3c);
+  background: var(--vscode-sideBar-background, #252526);
+  display: flex;
+  flex-direction: column;
+}
+
+.table-wrap {
+  flex: 1;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 7px 8px;
+  border-bottom: 1px solid var(--vscode-panel-border, #3c3c3c);
+  white-space: nowrap;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background: var(--vscode-sideBar-background, #252526);
+  z-index: 1;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background: var(--vscode-list-hoverBackground, #2a2d2e);
+}
+
+tbody tr.selected {
+  background: var(--vscode-list-activeSelectionBackground, #094771);
+  color: var(--vscode-list-activeSelectionForeground, #ffffff);
+}
+
+.c-idx {
+  width: 46px;
+}
+
+.c-op {
+  width: 44px;
+  text-align: center;
+}
+
+.swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: -2px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.del {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  opacity: 0.7;
+  padding: 0 4px;
+}
+
+.del:hover {
+  opacity: 1;
+  color: #f48771;
+}
+
+/* ---------------- 设备弹窗 ---------------- */
+
+#modalMask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal {
+  width: 430px;
+  max-width: 92vw;
+  background: var(--vscode-editor-background, #252526);
+  border: 1px solid var(--vscode-panel-border, #3c3c3c);
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.modal h3 {
+  margin: 0 0 12px;
+  font-size: 15px;
+}
+
+#deviceSelect {
+  width: 100%;
+  height: 124px;
+  padding: 4px;
+  background: var(--vscode-input-background, #3c3c3c);
+  color: var(--vscode-input-foreground, #cccccc);
+  border: 1px solid var(--vscode-input-border, #3c3c3c);
+  border-radius: 3px;
+}
+
+#deviceSelect option {
+  padding: 4px;
+}
+
+.connect-row {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.connect-row input {
+  flex: 1;
+}
+
+.connect-row .btn {
+  width: auto;
+  padding: 6px 16px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-actions .btn {
+  flex: 1;
+}
+
+/* ---------------- 标记表右键菜单 ---------------- */
+
+.ctx-menu {
+  position: fixed;
+  z-index: 60;
+  min-width: 132px;
+  padding: 4px 0;
+  background: var(--vscode-menu-background, #252526);
+  border: 1px solid var(--vscode-menu-border, #454545);
+  border-radius: 5px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
+  user-select: none;
+}
+
+.ctx-item {
+  padding: 6px 16px;
+  font-size: 12px;
+  color: var(--vscode-menu-foreground, #cccccc);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ctx-item:hover {
+  background: var(--vscode-menu-selectionBackground, #04395e);
+  color: var(--vscode-menu-selectionForeground, #ffffff);
+}
+
+.ctx-item.danger {
+  color: #f48771;
+}
+
+.ctx-item.danger:hover {
+  background: var(--vscode-menu-selectionBackground, #04395e);
+  color: #ffffff;
+}
+
+.ctx-sep {
+  height: 1px;
+  margin: 4px 0;
+  background: var(--vscode-menu-border, #454545);
+}
+
+/* ---------------- 控件获取 ---------------- */
+
+.chk-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  opacity: 0.85;
+  padding: 0 2px;
+}
+
+.chk-line input {
+  margin: 0;
+}
+
+#nodeCard {
+  position: absolute;
+  z-index: 15;
+  width: 258px;
+  padding: 10px;
+  background: var(--vscode-editorWidget-background, #252526);
+  border: 1px solid var(--vscode-panel-border, #454545);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  font-size: 11px;
+}
+
+.nc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.nc-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #c4b5fd;
+}
+
+.nc-close {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.nc-close:hover {
+  opacity: 1;
+}
+
+.nc-row {
+  display: flex;
+  gap: 8px;
+  margin: 3px 0;
+}
+
+.nc-k {
+  flex: 0 0 30px;
+  opacity: 0.6;
+}
+
+.nc-v {
+  flex: 1;
+  word-break: break-all;
+  white-space: normal;
+}
+
+.nc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.nc-btn {
+  flex: 1;
+  min-width: 54px;
+  padding: 4px 6px;
+  font-size: 10px;
+  border-radius: 3px;
+  border: 1px solid var(--vscode-panel-border, #454545);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nc-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nc-btn.primary {
+  background: #7c3aed;
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.nc-btn.primary:hover {
+  background: #8b5cf6;
+}

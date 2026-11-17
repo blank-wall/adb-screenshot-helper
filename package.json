@@ -1,0 +1,89 @@
+{
+  "name": "adb-screenshot-helper",
+  "displayName": "图色助手",
+  "icon": "media/icon.png",
+  "description": "图色助手：基于 ADB 的安卓设备截图、控件树查看、坐标标记取色、画面拖动与小图裁剪自动命名保存工具",
+  "version": "0.0.1",
+  "publisher": "guotianquan",
+  "engines": {
+    "vscode": "^1.84.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets"
+  ],
+  "keywords": [
+    "adb",
+    "android",
+    "screenshot",
+    "automation",
+    "tap"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "adbScreenshot.open",
+        "title": "图色助手：打开工作台"
+      },
+      {
+        "command": "adbScreenshot.capture",
+        "title": "图色助手：截取屏幕"
+      },
+      {
+        "command": "adbScreenshot.connect",
+        "title": "图色助手：选择/连接设备"
+      }
+    ],
+    "configuration": {
+      "title": "图色助手",
+      "properties": {
+        "adbScreenshot.adbPath": {
+          "type": "string",
+          "default": "adb",
+          "description": "adb 可执行文件的路径，默认使用系统 PATH 中的 adb（Windows 可填如 C:\\Users\\you\\AppData\\Local\\Android\\Sdk\\platform-tools\\adb.exe）"
+        },
+        "adbScreenshot.cropSize": {
+          "type": "number",
+          "default": 64,
+          "minimum": 8,
+          "maximum": 2048,
+          "description": "以标记点为中心截取小图的边长（像素）"
+        },
+        "adbScreenshot.filenamePrefix": {
+          "type": "string",
+          "default": "crop",
+          "description": "自动命名的文件名前缀"
+        },
+        "adbScreenshot.magnifierPixels": {
+          "type": "number",
+          "default": 15,
+          "minimum": 5,
+          "maximum": 51,
+          "description": "放大镜显示的像素网格边长（建议奇数）"
+        },
+        "adbScreenshot.commandTimeout": {
+          "type": "number",
+          "default": 30000,
+          "minimum": 1000,
+          "description": "adb 命令超时时间（毫秒）；截图命令会在此基础上最低放宽到 60 秒，云手机/网络 adb 设备画面传输较慢，如仍超时可调大此项"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "build": "node esbuild.js --production",
+    "typecheck": "tsc --noEmit",
+    "package": "vsce package --no-dependencies -o tusebaozhushou.vsix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.0",
+    "@types/vscode": "^1.84.0",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.3"
+  }
+}
